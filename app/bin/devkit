@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+use Noiselabs\DevkitApp\Application;
+
+$autoloadFilePath = __DIR__ . '/../../vendor/autoload.php';
+
+if (!file_exists($autoloadFilePath)) {
+    // Prompt the user to install the application
+    echo 'Application not installed. Do you want to run composer install now? (Y/n): ';
+
+    if (!preg_match('/^y(es)?$/i', fgets(fopen('php://stdin', 'r')))) {
+        die('Aborting.' . PHP_EOL);
+    }
+
+    shell_exec('composer install --quiet');
+}
+
+require_once $autoloadFilePath;
+
+$application = new Application();
+$application->run();
+
